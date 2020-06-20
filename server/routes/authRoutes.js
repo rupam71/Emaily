@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-
+ 
 
 module.exports = app => {
     // authenticate('google' come from GoogleStrategy
