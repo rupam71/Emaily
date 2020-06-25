@@ -22,24 +22,40 @@ passport.use(new GoogleStrategy({
     clientSecret : process.env.googleClientSecret,
     callbackURL: '/auth/google/callback' ,   //where user will go after login
     proxy: true
-    }, (accessToken, refreshToken, profile, done) => {
-        // console.log('accessToken: ', accessToken)   // our beloved auth
-        // console.log('refreshToken: ', refreshToken) //if we change accessToken
-        // console.log('profile: ', profile)   //actual object
-        User.findOne({googleId:profile.id})
-            .then((existingUser)=>{
-                if(existingUser) {
-                    //already have a record with this id
-                    done(null, existingUser)    //done(err, res)
-                } else {
-                    // new User
-                    new User({ googleId: profile.id })
-                        .save()
-                        .then(user=> done(null, user))
-                }
+    }, 
+    
+    // (accessToken, refreshToken, profile, done) => {
+    //     // console.log('accessToken: ', accessToken)   // our beloved auth
+    //     // console.log('refreshToken: ', refreshToken) //if we change accessToken
+    //     // console.log('profile: ', profile)   //actual object
+    //     User.findOne({googleId:profile.id})
+    //         .then((existingUser)=>{
+    //             if(existingUser) {
+    //                 //already have a record with this id
+    //                 done(null, existingUser)    //done(err, res)
+    //             } else {
+    //                 // new User
+    //                 new User({ googleId: profile.id })
+    //                     .save()
+    //                     .then(user=> done(null, user))
+    //             }
 
-            })
-    })
+    //         })
+    // }
+
+
+    async (accessToken, refreshToken, profile, done) => {
+        const existingUser =  await User.findOne({googleId:profile.id})
+            if(existingUser) {
+                return done(null, existingUser)    //done(err, res)
+            } else {
+                const user = await new User({ googleId: profile.id }).save()
+                   done(null, user)
+            }
+        }
+    
+    
+    )
 )
 
 // it will not return anything
