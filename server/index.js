@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
 const bodyParser = require('body-parser')
-const { fileURLToPath } = require('url')
-require('./models/User')
 require('./services/passport')
+require('./models/User')
+
 // const authRoutes = require('./routes/authRoutes')
 
 mongoose.connect(process.env.mongoURI, {useNewUrlParser: true,  useCreateIndex : true, useUnifiedTopology: true});
