@@ -5,6 +5,7 @@ const passport = require('passport')
 const bodyParser = require('body-parser')
 require('./services/passport')
 require('./models/User')
+require('./models/survey')
 
 // const authRoutes = require('./routes/authRoutes')
 
@@ -28,6 +29,7 @@ app.use(
 // authRoutes(app)
 require('./routes/authRoutes')(app)
 require('./routes/billingRouter')(app)
+require('./routes/surveyRoute')(app)
 
 
 if(process.env.NODE_ENV === 'production') {
