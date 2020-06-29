@@ -9,6 +9,18 @@ const { Path } = require('path-parser');
 const { URL } = require('url')
 
 module.exports = app => {
+
+  app.get('/api/surveys', requireLogin, async (req,res)=> {
+    const surveys = await Survey.find({
+      // req.user is current user
+      // _user is from Survey model
+      _user : req.user.id
+    })
+      .select({recipients:false})
+
+    res.send(surveys)
+  })
+
     app.get('/api/surveys/thanks', (req,res)=> {
         res.send('Thanks for voting!')
     })
